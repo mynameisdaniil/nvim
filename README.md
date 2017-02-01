@@ -2,12 +2,13 @@
 sudo apt-add-repository ppa:neovim-ppa/unstable
 sudo apt update
 sudo apt install nvim
+sudo apt install xclip
 ```
 or
 ```bash
-sudo sh -c "apt-add-repository ppa:neovim-ppa/unstable && apt update && apt install neovim"
+sudo sh -c "apt-add-repository ppa:neovim-ppa/unstable && apt update && apt install neovim xclip"
 ```
-then add:
+We need `xclip` in order for system clipboard/default buffer integration to work properly. Then add:
 ```bash
 alias v="nvim"
 alias vi="nvim"
