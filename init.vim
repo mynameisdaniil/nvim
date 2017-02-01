@@ -12,7 +12,8 @@ set cursorline cursorcolumn
 set undofile
 set undodir=$HOME/.nvimundodir
 " set undolevels=1000
-
+set modeline
+set modelines=5
 """"""""""""""""""""""""""""""""""""""""""""""""
 let g:easytags_file = './tags'
 set tags=./tags
@@ -29,6 +30,16 @@ let g:ctrlp_dotfiles = 1
 "Ctrl-O to open FuzzyFinder
 map <C-o> <Esc>:FufRenewCache<CR><Esc>:FufFile<CR>
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+vmap <silent>t= :Tabularize /=<CR>
+vmap <silent>t: :Tabularize /:<CR>
+vmap <silent>t, :Tabularize /,/r<CR>
+vmap <silent>t> :Tabularize /-><CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+let g:indentLine_char = '┆'
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 "center line on screen
@@ -104,4 +115,5 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'xolox/vim-misc'
 Plug 'cfurrow/vim-fuzzyfinder'
 Plug 'eparreno/vim-l9'
+Plug 'Yggdroot/indentLine'
 call plug#end()
