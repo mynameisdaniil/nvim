@@ -21,4 +21,10 @@ git clone git@github.com:mynameisdaniil/nvim.git
 cd nvim
 ln -s $PWD ~/.config/nvim
 ```
+Wrapper:
+```bash
+cp nvim-wrapper /usr/bin/nvim-wrapper
+cp neovim.desktop /usr/share/applications/neovim.desktop
+cp neovim.svg /usr/share/icons/neovim.svg
+```
 Enjoy!

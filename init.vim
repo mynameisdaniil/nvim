@@ -14,6 +14,10 @@ set undodir=$HOME/.nvimundodir
 " set undolevels=1000
 set modeline
 set modelines=5
+set ignorecase
+set smartcase
+set showcmd
+set showmatch
 """"""""""""""""""""""""""""""""""""""""""""""""
 let g:easytags_file = './tags'
 set tags=./tags
@@ -22,6 +26,11 @@ let g:easytags_events = ['BufWritePost', 'BufReadPost']
 let g:easytags_syntax_keyword = 'always'
 let tern#is_show_argument_hints_enabled = 0
 set completeopt-=preview "shut that fucking window up!
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+"Alt-Q to quit
+map <a-q> <Esc>:qa<CR>
+imap <a-q> <Esc>:qa<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_dotfiles = 1

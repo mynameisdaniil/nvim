@@ -1,0 +1,30 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+<a-F3>	/home/daniil/projects/my/nvim/init.vim	/^map <a-F3> N$/;"	m	language:Vim
+<a-q>	/home/daniil/projects/my/nvim/init.vim	/^imap <a-q> <Esc>:qa<CR>$/;"	m	language:Vim
+<a-q>	/home/daniil/projects/my/nvim/init.vim	/^map <a-q> <Esc>:qa<CR>$/;"	m	language:Vim
+<C-Left>	/home/daniil/projects/my/nvim/init.vim	/^map <C-Left> <Esc>:tabp<CR>$/;"	m	language:Vim
+<C-o>	/home/daniil/projects/my/nvim/init.vim	/^map <C-o> <Esc>:FufRenewCache<CR><Esc>:FufFile<CR>$/;"	m	language:Vim
+<C-PageDown>	/home/daniil/projects/my/nvim/init.vim	/^map <C-PageDown> :call TabMove(1)<Esc>$/;"	m	language:Vim
+<C-PageUp>	/home/daniil/projects/my/nvim/init.vim	/^map <C-PageUp> :call TabMove(-1)<Esc>$/;"	m	language:Vim
+<C-Right>	/home/daniil/projects/my/nvim/init.vim	/^map <C-Right> <Esc>:tabn<CR>$/;"	m	language:Vim
+<C-t>	/home/daniil/projects/my/nvim/init.vim	/^map <C-t> :tabnew<CR>$/;"	m	language:Vim
+<CR>	/home/daniil/projects/my/nvim/init.vim	/^nnoremap <silent> <expr> <CR> Highlighting()$/;"	m	language:Vim
+<F3>	/home/daniil/projects/my/nvim/init.vim	/^map <F3> n$/;"	m	language:Vim
+<F4>	/home/daniil/projects/my/nvim/init.vim	/^map <silent> <F4> <Esc>:noh<CR>$/;"	m	language:Vim
+<space>	/home/daniil/projects/my/nvim/init.vim	/^nmap <space> zz$/;"	m	language:Vim
+g:ctrlp_dotfiles	/home/daniil/projects/my/nvim/init.vim	/^let g:ctrlp_dotfiles = 1$/;"	v	language:Vim
+g:easytags_dynamic_files	/home/daniil/projects/my/nvim/init.vim	/^let g:easytags_dynamic_files = 2$/;"	v	language:Vim
+g:easytags_events	/home/daniil/projects/my/nvim/init.vim	/^let g:easytags_events = ['BufWritePost', 'BufReadPost']$/;"	v	language:Vim
+g:easytags_file	/home/daniil/projects/my/nvim/init.vim	/^let g:easytags_file = '.\/tags'$/;"	v	language:Vim
+g:easytags_syntax_keyword	/home/daniil/projects/my/nvim/init.vim	/^let g:easytags_syntax_keyword = 'always'$/;"	v	language:Vim
+g:highlighting	/home/daniil/projects/my/nvim/init.vim	/^let g:highlighting = 0$/;"	v	language:Vim
+g:indentLine_char	/home/daniil/projects/my/nvim/init.vim	/^let g:indentLine_char = '┆'$/;"	v	language:Vim
+Highlighting	/home/daniil/projects/my/nvim/init.vim	/^function! Highlighting()$/;"	f	language:Vim
+n	/home/daniil/projects/my/nvim/init.vim	/^nmap n nzz$/;"	m	language:Vim
+N	/home/daniil/projects/my/nvim/init.vim	/^nmap N Nzz$/;"	m	language:Vim
+t,	/home/daniil/projects/my/nvim/init.vim	/^vmap <silent>t, :Tabularize \/,\/r<CR>$/;"	m	language:Vim
+t:	/home/daniil/projects/my/nvim/init.vim	/^vmap <silent>t: :Tabularize \/:<CR>$/;"	m	language:Vim
+t=	/home/daniil/projects/my/nvim/init.vim	/^vmap <silent>t= :Tabularize \/=<CR>$/;"	m	language:Vim
+t>	/home/daniil/projects/my/nvim/init.vim	/^vmap <silent>t> :Tabularize \/-><CR>$/;"	m	language:Vim
+TabMove	/home/daniil/projects/my/nvim/init.vim	/^function! TabMove(direction)$/;"	f	language:Vim
+tern#is_show_argument_hints_enabled	/home/daniil/projects/my/nvim/init.vim	/^let tern#is_show_argument_hints_enabled = 0$/;"	v	language:Vim
