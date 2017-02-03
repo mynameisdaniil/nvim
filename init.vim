@@ -28,9 +28,29 @@ let tern#is_show_argument_hints_enabled = 0
 set completeopt-=preview "shut that fucking window up!
 
 """"""""""""""""""""""""""""""""""""""""""""""""
+"LocationList toggle
+let g:toggle_list_no_mappings = 0
+noremap <script> <silent> <F1> :call ToggleLocationList()<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_enable_signs=1
+let g:syntastic_javascript_checkers=['jshint']
+let g:syntastic_check_on_open=1
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_mode_map = { 'passive_filetypes': ['yaml'] }
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_quiet_warnings=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""
 "Alt-Q to quit
 map <a-q> <Esc>:qa<CR>
 imap <a-q> <Esc>:qa<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+"Toggle tree open/close in normal mode
+map <F2> :NERDTreeToggle<CR>
+"Toggle tree open/close in insert mode
+imap <F2> <Esc>:NERDTreeToggle<CR><i>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_dotfiles = 1
@@ -125,4 +145,7 @@ Plug 'xolox/vim-misc'
 Plug 'cfurrow/vim-fuzzyfinder'
 Plug 'eparreno/vim-l9'
 Plug 'Yggdroot/indentLine'
+Plug '~/projects/my/nvim/nginx/'
+Plug 'scrooloose/nerdtree'
+Plug 'milkypostman/vim-togglelist'
 call plug#end()

@@ -9,6 +9,9 @@
 <C-Right>	/home/daniil/projects/my/nvim/init.vim	/^map <C-Right> <Esc>:tabn<CR>$/;"	m	language:Vim
 <C-t>	/home/daniil/projects/my/nvim/init.vim	/^map <C-t> :tabnew<CR>$/;"	m	language:Vim
 <CR>	/home/daniil/projects/my/nvim/init.vim	/^nnoremap <silent> <expr> <CR> Highlighting()$/;"	m	language:Vim
+<F1>	/home/daniil/projects/my/nvim/init.vim	/^noremap <script> <silent> <F1> :call ToggleLocationList()<CR>$/;"	m	language:Vim
+<F2>	/home/daniil/projects/my/nvim/init.vim	/^imap <F2> <Esc>:NERDTreeToggle<CR><i>$/;"	m	language:Vim
+<F2>	/home/daniil/projects/my/nvim/init.vim	/^map <F2> :NERDTreeToggle<CR>$/;"	m	language:Vim
 <F3>	/home/daniil/projects/my/nvim/init.vim	/^map <F3> n$/;"	m	language:Vim
 <F4>	/home/daniil/projects/my/nvim/init.vim	/^map <silent> <F4> <Esc>:noh<CR>$/;"	m	language:Vim
 <space>	/home/daniil/projects/my/nvim/init.vim	/^nmap <space> zz$/;"	m	language:Vim
@@ -19,6 +22,12 @@ g:easytags_file	/home/daniil/projects/my/nvim/init.vim	/^let g:easytags_file = '
 g:easytags_syntax_keyword	/home/daniil/projects/my/nvim/init.vim	/^let g:easytags_syntax_keyword = 'always'$/;"	v	language:Vim
 g:highlighting	/home/daniil/projects/my/nvim/init.vim	/^let g:highlighting = 0$/;"	v	language:Vim
 g:indentLine_char	/home/daniil/projects/my/nvim/init.vim	/^let g:indentLine_char = '┆'$/;"	v	language:Vim
+g:syntastic_always_populate_loc_list	/home/daniil/projects/my/nvim/init.vim	/^let g:syntastic_always_populate_loc_list=1$/;"	v	language:Vim
+g:syntastic_check_on_open	/home/daniil/projects/my/nvim/init.vim	/^let g:syntastic_check_on_open=1$/;"	v	language:Vim
+g:syntastic_enable_signs	/home/daniil/projects/my/nvim/init.vim	/^let g:syntastic_enable_signs=1$/;"	v	language:Vim
+g:syntastic_javascript_checkers	/home/daniil/projects/my/nvim/init.vim	/^let g:syntastic_javascript_checkers=['jshint']$/;"	v	language:Vim
+g:syntastic_mode_map	/home/daniil/projects/my/nvim/init.vim	/^let g:syntastic_mode_map = { 'passive_filetypes': ['yaml'] }$/;"	v	language:Vim
+g:toggle_list_no_mappings	/home/daniil/projects/my/nvim/init.vim	/^let g:toggle_list_no_mappings = 0$/;"	v	language:Vim
 Highlighting	/home/daniil/projects/my/nvim/init.vim	/^function! Highlighting()$/;"	f	language:Vim
 n	/home/daniil/projects/my/nvim/init.vim	/^nmap n nzz$/;"	m	language:Vim
 N	/home/daniil/projects/my/nvim/init.vim	/^nmap N Nzz$/;"	m	language:Vim
