@@ -1,7 +1,9 @@
+set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 16
 set clipboard=unnamedplus
 set termguicolors
 set mouse=a
-colorscheme desert
+" colorscheme desert
+set nofoldenable
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -26,6 +28,12 @@ let g:easytags_events = ['BufWritePost', 'BufReadPost']
 let g:easytags_syntax_keyword = 'always'
 let tern#is_show_argument_hints_enabled = 0
 set completeopt-=preview "shut that fucking window up!
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+" map control-backspace to delete the previous word
+imap <C-BS> <C-W>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 "LocationList toggle
@@ -94,15 +102,18 @@ function! TabMove(direction)
 endfunction
 
 "Move current tab to prev position
-map <C-PageUp> :call TabMove(-1)<Esc>
+map <M-PageUp> :call TabMove(-1)<Esc>
 "Move current tab to next position
-map <C-PageDown> :call TabMove(1)<Esc>
+map <M-PageDown> :call TabMove(1)<Esc>
 "Create new tab
 map <C-t> :tabnew<CR>
 "Alt-left to go to the prew tab
-map <C-Left> <Esc>:tabp<CR>
+map <M-Left> <Esc>:tabp<CR>
 "Alt-right to go to the next tab
-map <C-Right> <Esc>:tabn<CR>
+map <M-Right> <Esc>:tabn<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+let g:haddock_browser = "open"
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 "find next
@@ -140,12 +151,22 @@ Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lukerandall/haskellmode-vim'
 Plug 'HHammond/vim-easytags'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'xolox/vim-misc'
 Plug 'cfurrow/vim-fuzzyfinder'
 Plug 'eparreno/vim-l9'
 Plug 'Yggdroot/indentLine'
 Plug '~/projects/my/nvim/nginx/'
+Plug '~/projects/my/nvim/mydesert/'
 Plug 'scrooloose/nerdtree'
 Plug 'milkypostman/vim-togglelist'
+Plug 'vim-airline/vim-airline'
+Plug 'ElmCast/elm-vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'raichoo/purescript-vim'
+Plug 'honza/vim-snippets'
+Plug 'othree/vim-autocomplpop'
+Plug 'kchmck/vim-coffee-script'
 call plug#end()
+
+colorscheme mydesert
