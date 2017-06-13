@@ -1,4 +1,3 @@
-set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 16
 set clipboard=unnamedplus
 set termguicolors
 set mouse=a
@@ -136,6 +135,9 @@ function! Highlighting()
 endfunction
 nnoremap <silent> <expr> <CR> Highlighting()
 
+" let g:syntastic_erlc_include_path = 'ebin'
+let g:syntastic_erlang_checkers=['syntaxerl']
+
 """"""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'pearofducks/ansible-vim'
@@ -167,6 +169,7 @@ Plug 'raichoo/purescript-vim'
 Plug 'honza/vim-snippets'
 Plug 'othree/vim-autocomplpop'
 Plug 'kchmck/vim-coffee-script'
+Plug 'vim-erlang/vim-erlang-runtime'
 call plug#end()
 
 colorscheme mydesert
