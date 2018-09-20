@@ -19,14 +19,22 @@ set ignorecase
 set smartcase
 set showcmd
 set showmatch
+set lazyredraw
 """"""""""""""""""""""""""""""""""""""""""""""""
-let g:easytags_file = './tags'
-set tags=./tags
-let g:easytags_dynamic_files = 2
-let g:easytags_events = ['BufWritePost', 'BufReadPost']
-let g:easytags_syntax_keyword = 'always'
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
+""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:easytags_file = './tags'
+" set tags=./tags
+" let g:easytags_dynamic_files = 2
+" let g:easytags_events = ['BufWritePost', 'BufReadPost']
+" let g:easytags_syntax_keyword = 'always'
 let tern#is_show_argument_hints_enabled = 0
 set completeopt-=preview "shut that fucking window up!
+
+let g:indentLine_setConceal = 0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -55,7 +63,7 @@ imap <a-q> <Esc>:qa<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 "Toggle tree open/close in normal mode
-map <F2> :NERDTreeToggle<CR>
+map <F2> :NERDTreeToggle<CR>:call g:NERDTree.ForCurrentTab().getRoot().refresh()<CR>
 "Toggle tree open/close in insert mode
 imap <F2> <Esc>:NERDTreeToggle<CR><i>
 
@@ -72,6 +80,7 @@ vmap <silent>t= :Tabularize /=<CR>
 vmap <silent>t: :Tabularize /:<CR>
 vmap <silent>t, :Tabularize /,/r<CR>
 vmap <silent>t> :Tabularize /-><CR>
+vmap <silent>t> :Tabularize /=><CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -113,7 +122,7 @@ map <M-Right> <Esc>:tabn<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 let g:haddock_browser = "open"
-
+let g:haddock_docdir="/usr"
 """"""""""""""""""""""""""""""""""""""""""""""""
 "find next
 map <F3> n
@@ -152,8 +161,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lukerandall/haskellmode-vim'
-Plug 'HHammond/vim-easytags'
+" Plug 'HHammond/vim-easytags'
 " Plug 'Valloric/YouCompleteMe'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'xolox/vim-misc'
 Plug 'cfurrow/vim-fuzzyfinder'
 Plug 'eparreno/vim-l9'
@@ -170,6 +180,8 @@ Plug 'honza/vim-snippets'
 Plug 'othree/vim-autocomplpop'
 Plug 'kchmck/vim-coffee-script'
 Plug 'vim-erlang/vim-erlang-runtime'
+Plug 'udalov/kotlin-vim'
+" Plug 'vim-erlang/vim-erlang-omnicomplete'
 call plug#end()
 
 colorscheme mydesert
