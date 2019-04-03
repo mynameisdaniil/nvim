@@ -24,6 +24,32 @@ set lazyredraw
 set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
+set title
+" external vimrc
+set exrc
+set secure
+"""""""""""
+" for racer
+" set hidden
+" let g:racer_cmd = "/home/user/.cargo/bin/racer"
+" let g:racer_experimental_completer = 1
+" let g:racer_insert_paren = 1
+"""""""""""
+" for LSP
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <F12> :call LanguageClient#explainErrorAtPoint()<CR>
+" Or map each action separately
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+"""""""""""
+autocmd BufEnter * let &titlestring=fnamemodify(getcwd(), ':t') ."/" . expand("%:F")
 highlight lCursor guifg=NONE guibg=Cyan
 """"""""""""""""""""""""""""""""""""""""""""""""
 " let g:easytags_file = './tags'
@@ -34,8 +60,9 @@ highlight lCursor guifg=NONE guibg=Cyan
 let tern#is_show_argument_hints_enabled = 0
 set completeopt-=preview "shut that fucking window up!
 
-let g:indentLine_setConceal = 0
+set directory=$HOME/.local/share/nvim/swap/
 
+let g:indentLine_setConceal = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 " map control-backspace to delete the previous word
@@ -181,6 +208,14 @@ Plug 'othree/vim-autocomplpop'
 Plug 'kchmck/vim-coffee-script'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'udalov/kotlin-vim'
+Plug 'rust-lang/rust.vim'
+Plug '~/.local/share/nvim/plugged/runtime/'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" Plug 'racer-rust/vim-racer'
 " Plug 'vim-erlang/vim-erlang-omnicomplete'
 call plug#end()
 
