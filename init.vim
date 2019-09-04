@@ -9,6 +9,10 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set number
+set diffopt+=iwhite " No whitespace in vimdiff
+" Make diffing better: https://vimways.org/2018/the-power-of-diff/
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
 set cursorline cursorcolumn
 set undofile
 set undodir=$HOME/.nvimundodir
@@ -29,36 +33,30 @@ set title
 set exrc
 set secure
 """""""""""
-" for racer
-" set hidden
-" let g:racer_cmd = "/home/user/.cargo/bin/racer"
-" let g:racer_experimental_completer = 1
-" let g:racer_insert_paren = 1
-"""""""""""
 " for LSP
 set hidden
+
+if executable('ag')
+	set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     \ }
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <F12> :call LanguageClient#explainErrorAtPoint()<CR>
-" Or map each action separately
-" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-"""""""""""
+" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" nnoremap <F12> :call LanguageClient#explainErrorAtPoint()<CR>
+
 autocmd BufEnter * let &titlestring=fnamemodify(getcwd(), ':t') ."/" . expand("%:F")
 highlight lCursor guifg=NONE guibg=Cyan
-""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:easytags_file = './tags'
-" set tags=./tags
-" let g:easytags_dynamic_files = 2
-" let g:easytags_events = ['BufWritePost', 'BufReadPost']
-" let g:easytags_syntax_keyword = 'always'
-let tern#is_show_argument_hints_enabled = 0
-set completeopt-=preview "shut that fucking window up!
+
+" Completion
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+" tab to select
+" and don't hijack my enter key
+inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
+inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 set directory=$HOME/.local/share/nvim/swap/
 
@@ -75,13 +73,36 @@ let g:toggle_list_no_mappings = 0
 noremap <script> <silent> <F1> :call ToggleLocationList()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_enable_signs=1
-let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_check_on_open=1
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_mode_map = { 'passive_filetypes': ['yaml'] }
-"let g:syntastic_auto_loc_list=1
-"let g:syntastic_quiet_warnings=1
+" Linter
+" only lint on save
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_enter = 0
+let g:ale_virtualtext_cursor = 1
+let g:ale_rust_rls_config = {
+	\ 'rust': {
+		\ 'all_targets': 1,
+		\ 'build_on_save': 1,
+		\ 'clippy_preference': 'on'
+	\ }
+	\ }
+let g:ale_rust_rls_toolchain = ''
+let g:ale_linters = {'rust': ['rls']}
+highlight link ALEWarningSign Todo
+highlight link ALEErrorSign WarningMsg
+highlight link ALEVirtualTextWarning Todo
+highlight link ALEVirtualTextInfo Todo
+highlight link ALEVirtualTextError WarningMsg
+highlight ALEError guibg=None
+highlight ALEWarning guibg=None
+let g:ale_sign_error = "✖"
+let g:ale_sign_warning = "⚠"
+let g:ale_sign_info = "i"
+let g:ale_sign_hint = "➤"
+
+nnoremap <silent> K :ALEHover<CR>
+nnoremap <silent> gd :ALEGoToDefinition<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 "Alt-Q to quit
@@ -98,20 +119,11 @@ imap <F2> <Esc>:NERDTreeToggle<CR><i>
 let g:ctrlp_dotfiles = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""
-"Ctrl-O to open FuzzyFinder
-map <C-o> <Esc>:FufRenewCache<CR><Esc>:FufFile<CR>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""
 vmap <silent>t= :Tabularize /=<CR>
 vmap <silent>t: :Tabularize /:<CR>
 vmap <silent>t, :Tabularize /,/r<CR>
 vmap <silent>t> :Tabularize /-><CR>
 vmap <silent>t> :Tabularize /=><CR>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""
-let g:indentLine_char = '┆'
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 "center line on screen
@@ -148,8 +160,8 @@ map <M-Left> <Esc>:tabp<CR>
 map <M-Right> <Esc>:tabn<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""
-let g:haddock_browser = "open"
-let g:haddock_docdir="/usr"
+" let g:haddock_browser = "open"
+" let g:haddock_docdir="/usr"
 """"""""""""""""""""""""""""""""""""""""""""""""
 "find next
 map <F3> n
@@ -171,52 +183,69 @@ function! Highlighting()
 endfunction
 nnoremap <silent> <expr> <CR> Highlighting()
 
-" let g:syntastic_erlc_include_path = 'ebin'
-let g:syntastic_erlang_checkers=['syntaxerl']
-
 """"""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
+" Lang support
 Plug 'pearofducks/ansible-vim'
+Plug 'rust-lang/rust.vim'
+" Plug 'cstrahan/vim-capnp'
+" Plug 'zchee/vim-flatbuffers'
+" Plug 'udalov/kotlin-vim'
+" Plug 'vim-erlang/vim-erlang-runtime'
+" Plug 'kchmck/vim-coffee-script'
+" Plug 'raichoo/purescript-vim'
+" Plug 'ElmCast/elm-vim'
+" Plug 'lukerandall/haskellmode-vim'
+
+" Editor enhancements
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
-Plug 'vim-syntastic/syntastic'
-Plug 'tomtom/tlib_vim'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'garbas/vim-snipmate'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'godlygeek/tabular'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'lukerandall/haskellmode-vim'
-" Plug 'HHammond/vim-easytags'
-" Plug 'Valloric/YouCompleteMe'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'xolox/vim-misc'
-Plug 'cfurrow/vim-fuzzyfinder'
-Plug 'eparreno/vim-l9'
+Plug 'andymass/vim-matchup'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'w0rp/ale'
+Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
-Plug '~/projects/my/nvim/nginx/'
-Plug '~/projects/my/nvim/mydesert/'
-Plug 'scrooloose/nerdtree'
+
+" Completion
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+
+" Fuzzy finder
+Plug 'airblade/vim-rooter'
+Plug 'vim-scripts/gitignore'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'eparreno/vim-l9'
+" Plug 'cfurrow/vim-fuzzyfinder'
+
+" Vim enhancements
 Plug 'milkypostman/vim-togglelist'
 Plug 'vim-airline/vim-airline'
-Plug 'ElmCast/elm-vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'raichoo/purescript-vim'
-Plug 'honza/vim-snippets'
-Plug 'othree/vim-autocomplpop'
-Plug 'kchmck/vim-coffee-script'
-Plug 'vim-erlang/vim-erlang-runtime'
-Plug 'udalov/kotlin-vim'
-Plug 'rust-lang/rust.vim'
-Plug '~/.local/share/nvim/plugged/runtime/'
+Plug 'scrooloose/nerdtree'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+Plug '~/projects/my/nvim/mydesert/'
+Plug '~/.local/share/nvim/plugged/runtime/'
+" Plug 'honza/vim-snippets'
+" Plug 'garbas/vim-snipmate'
+
+" Plug 'tomtom/tlib_vim'
+" Plug 'ludovicchabant/vim-gutentags'
+" Plug 'xolox/vim-misc'
+" Plug '~/projects/my/nvim/nginx/'
+" Plug 'othree/vim-autocomplpop'
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " Plug 'racer-rust/vim-racer'
 " Plug 'vim-erlang/vim-erlang-omnicomplete'
+" Plug 'vim-syntastic/syntastic'
+" Plug 'HHammond/vim-easytags'
+" Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
 colorscheme mydesert
