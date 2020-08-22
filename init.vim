@@ -36,16 +36,34 @@ set secure
 " for LSP
 set hidden
 
+let g:deoplete#enable_at_startup = 1
+
 if executable('ag')
 	set grepprg=ag\ --nogroup\ --nocolor
 endif
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ }
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"     \ 'reason': ['~/.local/bin/reason-language-server'],
+"     \ 'erlang': ['~/.local/bin/erlang_ls', '--transport', 'stdio'],
+"     \ 'javascript': ['~/.local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js', 'stdio'],
+"     \ 'typescript': ['~/.local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js', 'stdio'],
+"     \ }
+" " let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
+" " let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" " Or map each action separately
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 " nnoremap <F12> :call LanguageClient#explainErrorAtPoint()<CR>
+" let g:LanguageClient_diagnosticsSignsMax = 0
+
+
+" COC
+" nmap <silent> gd <Plug>(coc-definition)
 
 autocmd BufEnter * let &titlestring=fnamemodify(getcwd(), ':t') ."/" . expand("%:F")
 highlight lCursor guifg=NONE guibg=Cyan
@@ -55,8 +73,8 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 " tab to select
 " and don't hijack my enter key
-inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
-inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
+" inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
+" inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 set directory=$HOME/.local/share/nvim/swap/
 
@@ -77,8 +95,8 @@ noremap <script> <silent> <F1> :call ToggleLocationList()<CR>
 " only lint on save
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_save = 0
-let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 let g:ale_rust_rls_config = {
 	\ 'rust': {
@@ -88,7 +106,11 @@ let g:ale_rust_rls_config = {
 	\ }
 	\ }
 let g:ale_rust_rls_toolchain = ''
-let g:ale_linters = {'rust': ['rls']}
+let g:ale_linters = {
+\    'rust': ['rls'],
+\    'erlang':['erlc', 'dialyzer']
+\}
+let g:ale_linters_ignore = {'typescript': ['eslint']}
 highlight link ALEWarningSign Todo
 highlight link ALEErrorSign WarningMsg
 highlight link ALEVirtualTextWarning Todo
@@ -159,6 +181,11 @@ map <M-Left> <Esc>:tabp<CR>
 "Alt-right to go to the next tab
 map <M-Right> <Esc>:tabn<CR>
 
+""""""""""
+" Compile DOT files on save
+""""""""""
+autocmd FileType dot autocmd BufWritePost <buffer> silent! make
+
 """"""""""""""""""""""""""""""""""""""""""""""""
 " let g:haddock_browser = "open"
 " let g:haddock_docdir="/usr"
@@ -183,15 +210,17 @@ function! Highlighting()
 endfunction
 nnoremap <silent> <expr> <CR> Highlighting()
 
+let g:tsuquyomi_disable_default_mappings = 1
+
 """"""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 " Lang support
 Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
+Plug 'isRuslan/vim-es6'
 " Plug 'cstrahan/vim-capnp'
 " Plug 'zchee/vim-flatbuffers'
 " Plug 'udalov/kotlin-vim'
-" Plug 'vim-erlang/vim-erlang-runtime'
 " Plug 'kchmck/vim-coffee-script'
 " Plug 'raichoo/purescript-vim'
 " Plug 'ElmCast/elm-vim'
@@ -204,7 +233,7 @@ Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'andymass/vim-matchup'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale' "Language server protocol linter/checker
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
 
@@ -212,10 +241,12 @@ Plug 'Yggdroot/indentLine'
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
+Plug 'fgrsnau/ncm2-otherbuf'
 Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-snipmate'
 
 " Fuzzy finder
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 Plug 'vim-scripts/gitignore'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -223,29 +254,51 @@ Plug 'eparreno/vim-l9'
 " Plug 'cfurrow/vim-fuzzyfinder'
 
 " Vim enhancements
+Plug 'jlanzarotta/bufexplorer'
 Plug 'milkypostman/vim-togglelist'
 Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdtree'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 Plug '~/projects/my/nvim/mydesert/'
 Plug '~/.local/share/nvim/plugged/runtime/'
-" Plug 'honza/vim-snippets'
-" Plug 'garbas/vim-snipmate'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
 
-" Plug 'tomtom/tlib_vim'
+Plug 'tomtom/tlib_vim'
 " Plug 'ludovicchabant/vim-gutentags'
 " Plug 'xolox/vim-misc'
 " Plug '~/projects/my/nvim/nginx/'
 " Plug 'othree/vim-autocomplpop'
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'racer-rust/vim-racer'
-" Plug 'vim-erlang/vim-erlang-omnicomplete'
+" Plug 'vim-erlang/vim-erlang-runtime'
+Plug 'vim-erlang/vim-erlang-omnicomplete'
+Plug 'vim-erlang/vim-erlang-compiler'
+Plug 'vim-erlang/vim-erlang-tags'
+Plug 'elixir-lang/vim-elixir'
+Plug 'thinca/vim-ref'
+Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
+" Plug 'vim-erlang/vim-erlang-skeletons'
 " Plug 'vim-syntastic/syntastic'
 " Plug 'HHammond/vim-easytags'
 " Plug 'Valloric/YouCompleteMe'
+" Plug 'neovim/nvim-lsp'
+
+"typescript syntax
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" " For async completion
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" " For Denite features
+" Plug 'Shougo/denite.nvim'
+Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+Plug 'liuchengxu/graphviz.vim'
+" Plug 'reasonml-editor/vim-reason-plus'
 call plug#end()
 
 colorscheme mydesert
