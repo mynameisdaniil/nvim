@@ -1,1 +1,1 @@
-Guifont Ubuntu Mono:h16
+Guifont! Ubuntu Mono:h16

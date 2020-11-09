@@ -108,8 +108,9 @@ let g:ale_rust_rls_config = {
 let g:ale_rust_rls_toolchain = ''
 let g:ale_linters = {
 \    'rust': ['rls'],
-\    'erlang':['erlc', 'dialyzer']
+\    'erlang':['syntaxerl']
 \}
+""\    'erlang':['erlc', 'dialyzer']
 let g:ale_linters_ignore = {'typescript': ['eslint']}
 highlight link ALEWarningSign Todo
 highlight link ALEErrorSign WarningMsg
